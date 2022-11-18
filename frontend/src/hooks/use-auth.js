@@ -1,5 +1,5 @@
 import API from "api/axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginStart, loginSuccess, loginFailure } from "features/userSlice";
