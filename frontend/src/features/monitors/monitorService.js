@@ -6,7 +6,7 @@ import { trimInputValues } from "../../util/helper";
 //Create new monitor
 const createMonitor = async (monitorData) => {
   monitorData = trimInputValues(monitorData);
-  console.log('monitorData',monitorData);
+  console.log('monitorData', monitorData);
   const response = await axiosPrivate.post("/monitor", monitorData)
   return response.data;
 };
@@ -23,10 +23,17 @@ const deleteMonitor = async (monitorID) => {
   return response.data;
 };
 
+//Delete monitor
+const pauseMonitor = async (monitorID) => {
+  const response = await axiosPrivate.put(`/monitor/${monitorID}`, { active: false });
+  return response.data;
+};
+
 const monitorService = {
   deleteMonitor,
   createMonitor,
   getAllMonitors,
+  pauseMonitor
 };
 
 export default monitorService;

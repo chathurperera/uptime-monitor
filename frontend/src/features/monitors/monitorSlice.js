@@ -63,6 +63,25 @@ export const deleteMonitor = createAsyncThunk(
   }
 );
 
+//Pause Monitor
+export const pauseMonitor = createAsyncThunk(
+  "monitors/pause",
+  async (monitorID, thunkAPI) => {
+    try {
+      return await monitorService.pauseMonitor(monitorID);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 //Monitor Slice
 export const monitorSlice = createSlice({
   name: "monitor",
@@ -103,8 +122,18 @@ export const monitorSlice = createSlice({
       })
       .addCase(deleteMonitor.rejected, (state, action) => {
         state.message = action.payload.message;
+      })
+
+      //Pause Monitor
+      .addCase(pauseMonitor.fulfilled, (state, action) => {
+        state.monitors = state.monitors.map((monitor) => {
+          monitor._id === action.payload.id ? monitor.active = false : monitor;
+        });
+      })
+      .addCase(pauseMonitor.rejected, (state, action) => {
+        state.message = action.payload.message;
       });
-      
+
   },
 });
 
