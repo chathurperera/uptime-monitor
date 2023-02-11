@@ -9,9 +9,9 @@ import {
   AiOutlineWarning,
 } from "react-icons/ai";
 
-import { deleteMonitor, pauseMonitor } from "@/features/monitors/monitorSlice";
+import { deleteMonitor } from "@/features/monitors/monitorSlice";
+import Spinner from "@/components/Spinner";
 import { useState } from "react";
-import ActionsMenuItem from "../ActionsMenuItem";
 
 const MonitorActionsMenu = ({ monitorId, setShowActions }) => {
   const dispatch = useDispatch();
@@ -31,33 +31,20 @@ const MonitorActionsMenu = ({ monitorId, setShowActions }) => {
       });
   };
 
-  //Handle monitor pausing
-  const handlePause = async (monitorId) => {};
-
   return (
     <div className={styles.monitorActionsMenu}>
-      <ActionsMenuItem
-        text="Settings"
-        icon={<AiOutlineSetting />}
-        setShowActions={setShowActions}
-      />
-      <ActionsMenuItem
-        text="Incident"
-        icon={<AiOutlineWarning />}
-        setShowActions={setShowActions}
-      />
-      <ActionsMenuItem
-        text="Pause"
-        icon={<AiOutlinePauseCircle />}
-        setShowActions={setShowActions}
-        onClickHandler={() => pauseMonitor(monitorId)}
-      />
-      <ActionsMenuItem
-        text="Remove"
-        icon={<AiOutlineDelete />}
-        setShowActions={setShowActions}
-        onClickHandler={() => handleDelete(monitorId)}
-      />
+      <div className={styles.menuItem}>
+        <AiOutlineSetting /> Settings
+      </div>
+      <div className={styles.menuItem}>
+        <AiOutlineWarning /> Incident
+      </div>
+      <div className={styles.menuItem}>
+        <AiOutlinePauseCircle /> Pause
+      </div>
+      <div className={styles.menuItem} onClick={() => handleDelete(monitorId)}>
+        {!isLoading ? <AiOutlineDelete /> : <Spinner />} Remove
+      </div>
     </div>
   );
 };
