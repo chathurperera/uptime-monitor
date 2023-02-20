@@ -37,7 +37,7 @@ const Monitor = ({ monitor }) => {
             >
               {monitor.availability ? "Up" : "Down"}
             </span>
-            : {getTimePeriod(monitor.lastIncidentAt)} 
+            : {getTimePeriod(monitor.lastIncidentAt)}
           </p>
         </div>
       </div>
@@ -61,6 +61,7 @@ const Monitor = ({ monitor }) => {
         {showActions && (
           <MonitorActionsMenu
             setShowActions={setShowActions}
+            teamId={monitor.team}
             monitorId={monitor._id}
           />
         )}

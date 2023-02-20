@@ -1,11 +1,16 @@
 import BackButton from "@/components/BackButton";
-import React from "react";
+import React, { useEffect } from "react";
 import Actions from "./components/Actions";
 import Head from "./components/Head";
 import StatsCard from "./components/StatsCard";
 import styles from "./monitor-details.module.scss";
 
 const MonitorDetails = () => {
+
+  useEffect(() => {
+    
+  }, []);
+  
   return (
     <div className={styles.monitorDetails}>
       <BackButton />
