@@ -63,6 +63,25 @@ export const deleteMonitor = createAsyncThunk(
   }
 );
 
+//Get Monitor
+export const getMonitor = createAsyncThunk(
+  "monitors/get",
+  async (monitorID, thunkAPI) => {
+    try {
+      return await monitorService.getMonitor(monitorID);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 //Monitor Slice
 export const monitorSlice = createSlice({
   name: "monitor",
