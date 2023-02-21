@@ -25,6 +25,9 @@ const MonitorSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    incidentCount: {
+      type: Number
+    },
     lastIncidentAt: {
       type: String,
       default: Date.now()
