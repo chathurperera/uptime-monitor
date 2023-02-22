@@ -26,7 +26,8 @@ const MonitorSchema = new mongoose.Schema(
       default: true,
     },
     incidentCount: {
-      type: Number
+      type: Number,
+      default: 0
     },
     lastIncidentAt: {
       type: String,

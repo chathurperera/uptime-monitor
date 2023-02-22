@@ -81,10 +81,14 @@ const addMonitor = asyncHandler(async (req, res) => {
   const createdMonitor = await Monitor.create(req.body);
 
   //If the monitor is for monitoring the site availability
-  if (createdMonitor.alertsTriggeredOn === "1") await testUrl(createdMonitor);
+  console.log(" createdMonitor.alertsTriggeredOn ", createdMonitor.alertsTriggeredOn);
+  if (createdMonitor.alertsTriggeredOn == "1") {
+    await testUrl(createdMonitor);
+  }
+
 
   //If the monitor is for monitoring the SSL expiration
-  if (alertsTriggeredOn === "3") {
+  if (alertsTriggeredOn == "3") {
 
     const secDetails = await checkSSLDetails(url, notifyExpiration, createdMonitor._id, user);
 
