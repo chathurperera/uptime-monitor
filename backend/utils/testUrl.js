@@ -1,14 +1,15 @@
 const Incident = require("../models/incidentModel");
 const Monitor = require("../models/monitorModel");
 const axios = require("axios");
-const sendEmail = require("./sendEmail");
+// const sendEmail = require("./sendEmail");
+const sendEmail = require('./sendEmail');
 
 const testUrl = async (monitor) => {
   await axios.get(monitor.url).catch(async (error) => {
-    console.log('error in testUrl', error);
 
     //Checks if an incident is already created
     const existingIncident = await Incident.findOne({ monitorId: monitor._id });
+    console.log('existingIncident', existingIncident);
 
     //Creates an incident
     if (!existingIncident) {
@@ -54,13 +55,13 @@ const sendIncidentAlert = async (
     createdAt: currentDate,
   };
 
+  const filePath = path.join(__dirname, '../views/incident.html');
+  const source = fs.readFileSync(filePath, 'utf-8').toString();
+  const subject = 'Incident Alert!'
+
   //Sending email alerts to all the assigned members
   for (const email of alertEmails) {
-    await sendEmail(
-      email,
-      dynamicData,
-      process.env.SENDGRID_MONITOR_ALERT_TEMPLATE
-    );
+    sendEmail(email, source, dynamicData, subject);
   }
 };
 
