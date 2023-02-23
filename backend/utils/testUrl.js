@@ -4,7 +4,6 @@ const axios = require("axios");
 const sendEmail = require("./sendEmail");
 
 const testUrl = async (monitor) => {
-  console.log('monitor.url', monitor.url);
   await axios.get(monitor.url).catch(async (error) => {
     console.log('error in testUrl', error);
 

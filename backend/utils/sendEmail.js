@@ -5,9 +5,9 @@ const sendEmail = async (
   recipient,
   dynamicData,
   templateId,) => {
-    console.log('recipient',recipient);
-    console.log('dynamicData',dynamicData);
-    console.log('templateId',templateId);
+  console.log('recipient', recipient);
+  console.log('dynamicData', dynamicData);
+  console.log('templateId', templateId);
   sgMail
     .send({
       to: {
