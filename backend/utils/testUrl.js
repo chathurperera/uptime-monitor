@@ -1,8 +1,9 @@
 const Incident = require("../models/incidentModel");
 const Monitor = require("../models/monitorModel");
 const axios = require("axios");
-// const sendEmail = require("./sendEmail");
 const sendEmail = require('./sendEmail');
+const path = require('path');
+const fs = require('fs');
 
 const testUrl = async (monitor) => {
   await axios.get(monitor.url).catch(async (error) => {
@@ -47,16 +48,18 @@ const sendIncidentAlert = async (
 ) => {
   const currentDate = new Date().toJSON().slice(0, 10);
 
-  //Setting up data for the email template
-  const dynamicData = {
-    monitorID,
-    monitorURL,
-    statusCode,
-    createdAt: currentDate,
-  };
 
   const filePath = path.join(__dirname, '../views/incident.html');
   const source = fs.readFileSync(filePath, 'utf-8').toString();
+
+  //Setting up data for the email template
+  const dynamicData = {
+    monitorID: monitorID,
+    // recipientName:"",
+    monitorURL: monitorURL,
+    statusCode: statusCode,
+    createdAt: currentDate
+  };
   const subject = 'Incident Alert!'
 
   //Sending email alerts to all the assigned members
