@@ -29,7 +29,7 @@ const MonitorDetails = () => {
   return (
     <div className={styles.monitorDetails}>
       <BackButton />
-      <Head />
+      <Head url={monitor?.url}/>
       <Actions />
       <div className={styles.monitorDetails_stats}>
         <StatsCard label="Currently up for" value={getTimePeriod(monitor?.lastIncidentAt)} />
