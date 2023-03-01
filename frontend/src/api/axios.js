@@ -4,13 +4,13 @@ import { refreshToken } from "../util/refreshToken";
 // const dispatch = useDispatch();
 
 export default axios.create({
-  baseURL: process.env.REACT_APP_BASE_URL,
+  baseURL: import.meta.env.VITE_BASE_URL,
   headers: { "Content-Type": "application/json" },
   withCredentials: true,
 });
 
 export const axiosPrivate = axios.create({
-  baseURL: process.env.REACT_APP_BASE_URL,
+  baseURL: import.meta.env.VITE_BASE_URL,
   headers: { "Content-Type": "application/json" },
   withCredentials: true,
 });
