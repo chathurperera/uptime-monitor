@@ -1,12 +1,14 @@
 const User = require("../models/userModel");
 const Team = require("../models/teamModel");
 const Token = require("../models/tokenModel");
-
+const fs = require("fs");
+const path = require("path");
 const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
+
 const sendEmail = require("../utils/sendEmail");
-const crypto = require("crypto");
 const generateTokens = require("../utils/generateTokens");
 
 const jwtSecret = process.env.JWT_SECRET;
@@ -56,31 +58,31 @@ const register = asyncHandler(async (req, res) => {
     token: verificationLinkToken,
   }).save();
 
-  const verificationURL = `${process.env.BASE_URL}/user/verify/${userDetails._id}/${verificationLinkToken}`;
+  //Importing the email template
+  const filePath = path.join(__dirname, "../views/welcome.html");
+  const source = fs.readFileSync(filePath, "utf-8").toString();
 
-  //Sending email verification email
-  sendEmail(
-    email,
-    { verificationURL },
-    process.env.SENDGRID_EMAIL_VERIFICATION_TEMPLATE
-  );
+  //Setting up dynamic data
+  const verificationURL = `${process.env.BASE_URL}/user/verify/${userDetails._id}/${verificationLinkToken}`;
+  const dynamicData = {
+    verificationURL: verificationURL,
+  };
+  const subject = "Welcome to uptimesaga";
+
+  // console.log('email source',source);
+
+  //Sending verification email
+  sendEmail(email, source, dynamicData, subject);
 
   //Generating the token
-  const token = jwt.sign(
-    {
-      id: userDetails._id,
-    },
-    jwtSecret,
-    { expiresIn: "1d" }
-  );
+  const { accessToken } = await generateTokens(userDetails._id);
 
   res.status(201).json({
     ...userDetails,
     teamId,
-    token,
+    token: accessToken,
   });
 });
-
 
 //@desc   Login
 //@route  POST /api/v1/login
