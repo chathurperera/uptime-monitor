@@ -9,13 +9,14 @@ const SharedLayout = () => {
   const { user } = useSelector((state) => state.auth);
 
   if (!user) {
+    console.log('landed on shared layout')
     return <Navigate to="/login" replace />;
   }
   
 
   return (
     <main className={styles.layout}>
-      <Sidebar />
+      <Sidebar user={user} />
       <div className={styles.content}>
         <Header />
         <div className={styles.content_wrapper}>
