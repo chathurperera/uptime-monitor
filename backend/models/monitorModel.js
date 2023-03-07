@@ -27,11 +27,11 @@ const MonitorSchema = new mongoose.Schema(
     },
     incidentCount: {
       type: Number,
-      default: 0
+      default: 0,
     },
     lastIncidentAt: {
       type: String,
-      default: Date.now()
+      default: Date.now(),
     },
     alertEmails: {
       type: Array,
@@ -46,6 +46,8 @@ const MonitorSchema = new mongoose.Schema(
   }
 );
 
+//Indexes
+MonitorSchema.index({ active: 1, user: 1 });
 module.exports = mongoose.model("Monitor", MonitorSchema);
 /*
 Alert triggers

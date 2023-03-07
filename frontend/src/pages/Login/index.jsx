@@ -13,14 +13,14 @@ const Login = () => {
   const dispatch = useDispatch();
 
   const [showPassword, setShowPassword] = useState(false);
-  const [loginDetails, setLoginDetails] = useState({
-    email: "chathurapereraaa@gmail.com",
-    password: "chathura123456",
-  });
   // const [loginDetails, setLoginDetails] = useState({
-  //   email: "john@gmail.com",
-  //   password: "john123456",
+  //   email: "chathurapereraaa@gmail.com",
+  //   password: "chathura123456",
   // });
+  const [loginDetails, setLoginDetails] = useState({
+    email: "john@gmail.com",
+    password: "john123456",
+  });
 
  const { isLoading, isError, isSuccess, message } = useSelector(
    (state) => state.auth
