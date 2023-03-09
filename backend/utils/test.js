@@ -1,11 +1,20 @@
-const axios = require('axios');
+const sslChecker = require("ssl-checker");
 
-const fetchURL = async () => {
-    await axios.get('https://clipboard-landing-page-gold.vercel.app/').then((res) => {
-        console.log('res', res)
-    }).catch((error) => {
-        console.log('error', error)
-    })
-}
+// const getSslDetails = async (domainURL) => {
+//   let domain;
+//   if (domainURL.includes("https://")) {
+//     domain = Str.split("https://").join("");
+//   } else if (domainURL.includes("http://")) {
+//     domain = Str.split("http://").join("");
+//   } else if(domainURL.includes("www.")){
 
-fetchURL();
+//   }
+//   await sslChecker(domain, {
+//     method: "GET",
+//     port: 443,
+//   }).then(console.info);
+// };
+// getSslDetails();
+sslChecker("www.youtube.com", { method: "GET", port: 443 }).then(console.info);
+// const url = new URL("https://www.youtube.com/");
+// console.log("url", url);

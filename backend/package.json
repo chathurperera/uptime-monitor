@@ -30,6 +30,7 @@
     "handlebars": "^4.7.7",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.7.1",
-    "nodemailer": "^6.9.1"
+    "nodemailer": "^6.9.1",
+    "ssl-checker": "^2.0.8"
   }
 }

@@ -5,6 +5,7 @@ const connectDB = (URI) => {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
+  mongoose.set('strictQuery', true);
 };
 
 
