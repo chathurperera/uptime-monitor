@@ -15,6 +15,6 @@ const sslChecker = require("ssl-checker");
 //   }).then(console.info);
 // };
 // getSslDetails();
-sslChecker("www.youtube.com", { method: "GET", port: 443 }).then(console.info);
+sslChecker("fabricjs.com", { method: "GET", port: 443 }).then(console.info);
 // const url = new URL("https://www.youtube.com/");
 // console.log("url", url);

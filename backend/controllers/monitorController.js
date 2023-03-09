@@ -82,8 +82,8 @@ const addMonitor = asyncHandler(async (req, res) => {
   if (createdMonitor.type == "HTTP") await testUrl(createdMonitor);
 
   //If the monitor is for monitoring the SSL expiration
-  if (type == "SSL") {
-    const SSLInfo = await SSLCheck(url);
+  if (type === "SSL") {
+    const SSLInfo = await SSLCheck(url, notifyExpiration, user);
     console.log("SSLInfo", SSLInfo);
   }
 
