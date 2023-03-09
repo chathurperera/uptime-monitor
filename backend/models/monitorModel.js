@@ -17,6 +17,10 @@ const MonitorSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    type: {
+      type: String,
+      enum: ["HTTP", "SSL", "KEYWORD"],
+    },
     active: {
       type: Boolean,
       default: true,
@@ -25,21 +29,25 @@ const MonitorSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
-    incidentCount: {
-      type: Number,
-      default: 0,
+    keyword: String,
+    sslDetails: {
+      issuer: String,
+      validFrom: String,
+      validTo: String,
+      protocol: String,
+      notifyExpiration: String,
     },
-    lastIncidentAt: {
-      type: String,
-      default: Date.now(),
+    incidents: {
+      incidentCount: {
+        type: Number,
+        default: 0,
+      },
+      lastIncidentAt: {
+        type: String,
+        default: Date.now(),
+      },
     },
-    alertEmails: {
-      type: Array,
-    },
-    alertsTriggeredOn: {
-      type: Number,
-      default: 1,
-    },
+    alertEmails: [String],
   },
   {
     timestamps: true,
