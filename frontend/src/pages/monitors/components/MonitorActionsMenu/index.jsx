@@ -7,15 +7,18 @@ import {
   AiOutlineSetting,
   AiOutlineDelete,
   AiOutlineWarning,
+  AiOutlineMonitor,
 } from "react-icons/ai";
 
 import { deleteMonitor } from "@/features/monitors/monitorSlice";
 import Spinner from "@/components/Spinner";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const MonitorActionsMenu = ({ monitorId, setShowActions }) => {
+const MonitorActionsMenu = ({ monitorId, setShowActions, teamId }) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   //Handle deleting the monitor
   const handleDelete = async (monitorId) => {
@@ -31,13 +34,26 @@ const MonitorActionsMenu = ({ monitorId, setShowActions }) => {
       });
   };
 
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
+
   return (
     <div className={styles.monitorActionsMenu}>
-      <div className={styles.menuItem}>
+      <div
+        className={styles.menuItem}
+        onClick={() => handleNavigation("team/incidents")}
+      >
         <AiOutlineSetting /> Settings
       </div>
       <div className={styles.menuItem}>
         <AiOutlineWarning /> Incident
+      </div>
+      <div
+        className={styles.menuItem}
+        onClick={() => handleNavigation(`team/${teamId}/monitor/${monitorId}`)}
+      >
+        <AiOutlineMonitor /> Stats
       </div>
       <div className={styles.menuItem}>
         <AiOutlinePauseCircle /> Pause

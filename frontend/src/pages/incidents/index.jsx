@@ -49,6 +49,7 @@ const Incidents = () => {
             <p className={styles.url}>{incident?.monitor?.url}</p>
             <p className={styles.cause}>{incident?.cause}</p>
           </div>
+          
         </td>
         <td>{moment(incident?.createdAt).format("MMMM Do YYYY, h:mm:ss a")}</td>
         <td className={styles.currentStatus}>

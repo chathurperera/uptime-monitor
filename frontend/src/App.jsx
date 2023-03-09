@@ -15,7 +15,7 @@ import Invitations from "@/pages/invitations";
 import Members from "./pages/members";
 import InviteMembers from "./pages/invite-members";
 import Integrations from "./pages/integrations";
-
+import MonitorSettings from "./pages/monitor-setings";
 
 const App = () => {
   return (
@@ -29,6 +29,10 @@ const App = () => {
           <Route path="/team/members/add" element={<InviteMembers />} />
           <Route path="/team/invitations" element={<Invitations />} />
           <Route path="/team/integrations" element={<Integrations />} />
+          <Route
+            path="/team/:monitorId/settings"
+            element={<MonitorSettings />}
+          />
           <Route
             path="/team/:teamID/monitor/:monitorID"
             element={<MonitorDetails />}

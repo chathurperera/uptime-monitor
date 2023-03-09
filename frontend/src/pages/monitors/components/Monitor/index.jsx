@@ -1,20 +1,15 @@
 import React, { useState } from "react";
 import styles from "./Monitor.module.scss";
 import { AiOutlineEllipsis, AiOutlineBell } from "react-icons/ai";
-import MonitorActionsMenu from "@/pages/monitors/components/MonitorActionsMenu";
+
 import useOutSideClick from "@/hooks/user-outSideClick";
 import { getTimePeriod } from "../../../../util/getTimePeriod";
 import moment from "moment";
+import ActionMenuDots from "../ActionMenuDots";
 
 const Monitor = ({ monitor }) => {
-  const [showActions, setShowActions] = useState(false);
-
-  function toggleActionsMenu(e) {
-    e.stopPropagation();
-    setShowActions((prevState) => !prevState);
-  }
   const period = getTimePeriod(monitor.lastIncidentAt);
-
+  console.log("monitor rendered");
   return (
     <div className={styles.monitor}>
       <div className={styles.info}>
@@ -37,7 +32,7 @@ const Monitor = ({ monitor }) => {
             >
               {monitor.availability ? "Up" : "Down"}
             </span>
-            : {getTimePeriod(monitor.lastIncidentAt)} 
+            : {getTimePeriod(monitor.lastIncidentAt)}
           </p>
         </div>
       </div>
@@ -52,18 +47,7 @@ const Monitor = ({ monitor }) => {
               : "Keyword Monitoring"}
           </p>
         </div>
-        <div
-          className={`${styles.dots} hoverEffect`}
-          onClick={toggleActionsMenu}
-        >
-          <AiOutlineEllipsis size="25px" />
-        </div>
-        {showActions && (
-          <MonitorActionsMenu
-            setShowActions={setShowActions}
-            monitorId={monitor._id}
-          />
-        )}
+        <ActionMenuDots teamId={monitor.team} monitorId={monitor._id} />
       </div>
     </div>
   );

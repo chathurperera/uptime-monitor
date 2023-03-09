@@ -10,8 +10,13 @@ import {
   AiOutlineLink,
   AiOutlineSetting,
 } from "react-icons/ai";
+import MenuList from "../MenuList";
+import MenuItem from "../MenuItem";
+import { useState } from "react";
 
-const Sidebar = () => {
+const Sidebar = ({ user }) => {
+  const [openMenu, setOpenMenu] = useState(false);
+
   return (
     <aside className={styles.aside}>
       <div className={styles.aside_logo}>
@@ -34,7 +39,20 @@ const Sidebar = () => {
           <AiOutlineLink size="20px" />
         </SidebarLink>
       </div>
-      <div className={styles.manageTeam}>
+      <div
+        className={styles.manageTeam}
+        onClick={() => setOpenMenu((prevState) => !prevState)}
+      >
+        {openMenu && (
+          <MenuList customStyles={{ bottom: "100%", left: 0 }}>
+            <MenuItem
+              icon={
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzPaMcF_xhJ9Hp9QfImvkCJw-k8eJCwpWZmA&usqp=CAU" />
+              }
+              text={user.teamName}
+            />
+          </MenuList>
+        )}
         <AiOutlineSetting size="20px" /> Manage Team
       </div>
     </aside>
