@@ -26,11 +26,11 @@ const MonitorSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    keyword: String,
     availability: {
       type: Boolean,
       default: true,
     },
-    keyword: String,
     sslDetails: {
       issuer: String,
       validFrom: String,
@@ -38,7 +38,7 @@ const MonitorSchema = new mongoose.Schema(
       protocol: String,
       notifyExpiration: String,
     },
-    incidents: {
+    incidentDetails: {
       incidentCount: {
         type: Number,
         default: 0,
@@ -51,16 +51,20 @@ const MonitorSchema = new mongoose.Schema(
     alertEmails: [String],
   },
   {
+    toJSON: true,
+    toObject: true,
     timestamps: true,
   }
 );
 
 //Indexes
 MonitorSchema.index({ active: 1, user: 1 });
+
+//Virtual
+MonitorSchema.virtual("incidents", {
+  ref: "Incident",
+  localField: "_id",
+  foreignField: "monitor",
+});
+
 module.exports = mongoose.model("Monitor", MonitorSchema);
-/*
-Alert triggers
-1 = Becomes unavailable 
-2 = SSL Expires
-3 = Doesn't contain a keyword
-*/

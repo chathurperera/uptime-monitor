@@ -1,6 +1,6 @@
 const Monitor = require("../models/monitorModel");
 const Incident = require("../models/incidentModel");
-const SSLCheck = require("../models/sslCheckModel");
+const SSLCheck = require("../utils/SSLCheck");
 const asyncHandler = require("express-async-handler");
 const testUrl = require("../utils/testUrl");
 const { checkSSLDetails } = require("../services/puppeteer");
@@ -8,11 +8,11 @@ const { checkSSLDetails } = require("../services/puppeteer");
 function isValidURL(str) {
   var pattern = new RegExp(
     "^(https?:\\/\\/)?" + // protocol
-    "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
-    "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
-    "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
-    "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
-    "(\\#[-a-z\\d_]*)?$",
+      "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+      "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+      "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+      "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+      "(\\#[-a-z\\d_]*)?$",
     "i"
   ); // fragment locator
   return !!pattern.test(str);
@@ -31,7 +31,7 @@ const getMonitor = asyncHandler(async (req, res) => {
 //@route  GET /api/v1/monitor
 //@access Private
 const getUserMonitors = asyncHandler(async (req, res) => {
-  const allMonitors = await Monitor.find({ user: req.user._id }, );
+  const allMonitors = await Monitor.find({ user: req.user._id });
   res.status(200).json(allMonitors);
 });
 
@@ -51,7 +51,7 @@ const deleteMonitor = asyncHandler(async (req, res) => {
 //@route  POST /api/v1/monitor
 //@access Private
 const addMonitor = asyncHandler(async (req, res) => {
-  const { url, user, team, alertsTriggeredOn, notifyExpiration } = req.body;
+  const { url, user, team, type, notifyExpiration } = req.body;
 
   if (!url || !user || !team) {
     return res.status(400).json({ message: "Provide all required fields" });
@@ -70,9 +70,7 @@ const addMonitor = asyncHandler(async (req, res) => {
   */
   if (
     existingMonitor.length > 0 &&
-    existingMonitor.some(
-      (monitor) => monitor.alertsTriggeredOn === alertsTriggeredOn
-    )
+    existingMonitor.some((monitor) => monitor.type === type)
   ) {
     return res.status(409).json({ message: "Duplicate url" });
   }
@@ -81,11 +79,12 @@ const addMonitor = asyncHandler(async (req, res) => {
   const createdMonitor = await Monitor.create(req.body);
 
   //If the monitor is for monitoring the site availability
-  if (createdMonitor.alertsTriggeredOn == "1") await testUrl(createdMonitor);
+  if (createdMonitor.type == "HTTP") await testUrl(createdMonitor);
 
   //If the monitor is for monitoring the SSL expiration
-  if (alertsTriggeredOn == "3") {
-    const secDetails = await checkSSLDetails(url, notifyExpiration, createdMonitor._id, user);
+  if (type == "SSL") {
+    const SSLInfo = await SSLCheck(url);
+    console.log("SSLInfo", SSLInfo);
   }
 
   res.status(201).json({ message: "Monitor created successfully" });
