@@ -15,8 +15,8 @@ const CreateMonitor = () => {
     url: "https://",
     team: teamId,
     user: userId,
+    type: "HTTP",
     alertEmails: [email],
-    alertsTriggeredOn: "1",
     notifyExpiration: "1",
   });
 
@@ -51,7 +51,7 @@ const CreateMonitor = () => {
       })
       .catch((error) => {
         seIstLoading(false);
-        console.log('error',error);
+        console.log("error", error);
         toast.error(error.response.data.message);
       });
   };
@@ -82,13 +82,13 @@ const CreateMonitor = () => {
                 <div className="two-col">
                   <div className="selectWrapper">
                     <label>Notify me when</label>
-                    <select onChange={handleChange} name="alertsTriggeredOn">
-                      <option value="1">Becomes Unavailable</option>
-                      <option value="2">Doesn't contain a keyword</option>
-                      <option value="3">SSL Expiration</option>
+                    <select onChange={handleChange} name="type">
+                      <option value="HTTP">Becomes Unavailable</option>
+                      <option value="KEYWORD">Doesn't contain a keyword</option>
+                      <option value="SSL">SSL Expiration</option>
                     </select>
                   </div>
-                  {monitorDetails.alertsTriggeredOn === "3" && (
+                  {monitorDetails.type === "SSL" && (
                     <div className="selectWrapper">
                       <label>Notify me when</label>
                       <select onChange={handleChange} name="notifyExpiration">

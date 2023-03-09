@@ -20,6 +20,7 @@ const MonitorSchema = new mongoose.Schema(
     type: {
       type: String,
       enum: ["HTTP", "SSL", "KEYWORD"],
+      default: "HTTP",
     },
     active: {
       type: Boolean,
